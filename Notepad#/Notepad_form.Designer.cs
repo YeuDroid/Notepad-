@@ -57,12 +57,6 @@ namespace Notepad_
             this.tamañoFuenteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDeFondoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.darkModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.codificacionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.uTF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.uTF16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.uNICODEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aSCIIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dEFAULTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.informacionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.licenciaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -118,6 +112,8 @@ namespace Notepad_
             this.recientesToolStripMenuItem.Name = "recientesToolStripMenuItem";
             this.recientesToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.recientesToolStripMenuItem.Text = "Recientes";
+            this.recientesToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.recientesToolStripMenuItem_DropDownItemClicked);
+            this.recientesToolStripMenuItem.Click += new System.EventHandler(this.recientesToolStripMenuItem_Click);
             // 
             // guardarToolStripMenuItem
             // 
@@ -200,8 +196,7 @@ namespace Notepad_
             this.fuenteToolStripMenuItem,
             this.tamañoFuenteToolStripMenuItem,
             this.colorDeFondoToolStripMenuItem,
-            this.darkModeToolStripMenuItem,
-            this.codificacionToolStripMenuItem});
+            this.darkModeToolStripMenuItem});
             this.formatoToolStripMenuItem.Name = "formatoToolStripMenuItem";
             this.formatoToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
             this.formatoToolStripMenuItem.Text = "Formato";
@@ -224,62 +219,13 @@ namespace Notepad_
             this.colorDeFondoToolStripMenuItem.Name = "colorDeFondoToolStripMenuItem";
             this.colorDeFondoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.colorDeFondoToolStripMenuItem.Text = "Color de fondo";
+            this.colorDeFondoToolStripMenuItem.Click += new System.EventHandler(this.colorDeFondoToolStripMenuItem_Click);
             // 
             // darkModeToolStripMenuItem
             // 
             this.darkModeToolStripMenuItem.Name = "darkModeToolStripMenuItem";
             this.darkModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.darkModeToolStripMenuItem.Text = "DarkMode";
-            // 
-            // codificacionToolStripMenuItem
-            // 
-            this.codificacionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.uTF8ToolStripMenuItem,
-            this.uTF16ToolStripMenuItem,
-            this.uNICODEToolStripMenuItem,
-            this.aSCIIToolStripMenuItem,
-            this.dEFAULTToolStripMenuItem});
-            this.codificacionToolStripMenuItem.Name = "codificacionToolStripMenuItem";
-            this.codificacionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.codificacionToolStripMenuItem.Text = "Codificacion";
-            this.codificacionToolStripMenuItem.Click += new System.EventHandler(this.codificacionToolStripMenuItem_Click);
-            // 
-            // uTF8ToolStripMenuItem
-            // 
-            this.uTF8ToolStripMenuItem.Name = "uTF8ToolStripMenuItem";
-            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.uTF8ToolStripMenuItem.Text = "UTF 8";
-            this.uTF8ToolStripMenuItem.Click += new System.EventHandler(this.uTF8ToolStripMenuItem_Click);
-            // 
-            // uTF16ToolStripMenuItem
-            // 
-            this.uTF16ToolStripMenuItem.Name = "uTF16ToolStripMenuItem";
-            this.uTF16ToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.uTF16ToolStripMenuItem.Text = "UTF 16";
-            this.uTF16ToolStripMenuItem.Click += new System.EventHandler(this.uTF16ToolStripMenuItem_Click);
-            // 
-            // uNICODEToolStripMenuItem
-            // 
-            this.uNICODEToolStripMenuItem.Name = "uNICODEToolStripMenuItem";
-            this.uNICODEToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.uNICODEToolStripMenuItem.Text = "UNICODE";
-            this.uNICODEToolStripMenuItem.Click += new System.EventHandler(this.uNICODEToolStripMenuItem_Click);
-            // 
-            // aSCIIToolStripMenuItem
-            // 
-            this.aSCIIToolStripMenuItem.Name = "aSCIIToolStripMenuItem";
-            this.aSCIIToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.aSCIIToolStripMenuItem.Text = "ASCII";
-            this.aSCIIToolStripMenuItem.Click += new System.EventHandler(this.aSCIIToolStripMenuItem_Click);
-            // 
-            // dEFAULTToolStripMenuItem
-            // 
-            this.dEFAULTToolStripMenuItem.Checked = true;
-            this.dEFAULTToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.dEFAULTToolStripMenuItem.Name = "dEFAULTToolStripMenuItem";
-            this.dEFAULTToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.dEFAULTToolStripMenuItem.Text = "DEFAULT";
-            this.dEFAULTToolStripMenuItem.Click += new System.EventHandler(this.dEFAULTToolStripMenuItem_Click);
             // 
             // informacionToolStripMenuItem
             // 
@@ -352,11 +298,10 @@ namespace Notepad_
             // 
             this.editor.AcceptsTab = true;
             this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
-            //this.editor.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            //this.editor.Location = new System.Drawing.Point(0, 24);
+            this.editor.Location = new System.Drawing.Point(0, 24);
             this.editor.Name = "editor";
             this.editor.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            //this.editor.Size = new System.Drawing.Size(761, 369);
+            this.editor.Size = new System.Drawing.Size(761, 369);
             this.editor.TabIndex = 2;
             this.editor.Text = "";
             this.editor.TextChanged += new System.EventHandler(this.editor_TextChanged);
@@ -410,12 +355,6 @@ namespace Notepad_
         private System.Windows.Forms.RichTextBox editor;
         private System.Windows.Forms.ToolStripMenuItem abrirArchivoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem recientesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem codificacionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem uTF8ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem uTF16ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem uNICODEToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aSCIIToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dEFAULTToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusContadorPalabras;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusContadorCaracteres;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusContadorLineas;

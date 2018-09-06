@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Notepad_
@@ -22,10 +23,12 @@ namespace Notepad_
         public Configuration Config;
         public class Configuration
         {
-            public System.Text.Encoding Encoding = System.Text.Encoding.Default;
-            public Font ActualFont = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            public Boolean GuardadoAutomaticoStatus = false;
-            public Size TamañoForm = new Size(300,300);
+            //public System.Text.Encoding Encoding { get; set; }
+            public Font ActualFont { get; set; }
+            public Color ColorEditor { get; set; }
+            public Boolean GuardadoAutomaticoStatus { get; set; }
+            public Size TamañoForm { get; set; }
+            public List<String> ArchivosRecientes = new List<String>();
 
             public static Configuration GetConfiguration()
             {
@@ -35,41 +38,72 @@ namespace Notepad_
                     var dataraw = System.IO.File.ReadAllText("config.json");
                     return Newtonsoft.Json.JsonConvert.DeserializeObject<Configuration>(dataraw);
                 }
-            
-               else
+
+                else
                 {
-                    new Configuration().Save();
+                    var configTemp = new Configuration();
+
+                    configTemp.TamañoForm = new Size(776, 417);
+                    configTemp.ColorEditor = Color.White;
+                    configTemp.GuardadoAutomaticoStatus = false;
+                    // configTemp.Encoding = System.Text.Encoding.Default;
+                    configTemp.ActualFont = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    configTemp.Save();
+
                     goto inicio;
                 }
-                
+
             }
             public void Save()
             {
-                
+
                 var dataraw = Newtonsoft.Json.JsonConvert.SerializeObject(this);
-                System.IO.File.WriteAllText("config.json",dataraw);
+                System.IO.File.WriteAllText("config.json", dataraw);
             }
-            
+
         }
         public Notepad_form()
-		{
+        {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
-            this.Config = Configuration.GetConfiguration();
-			InitializeComponent();
-			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
-		}
 
-      
+            InitializeComponent();
+            this.Config = Configuration.GetConfiguration();
+            this.ApplyConfig();
+            //
+            // TODO: Add constructor code after the InitializeComponent() call.
+            //
+        }
+
+        private void ApplyConfig()
+        {
+            this.Size = Config.TamañoForm;
+            this.editor.Font = Config.ActualFont;
+            this.guardarToolStripMenuItem.Checked = Config.GuardadoAutomaticoStatus;
+            this.editor.BackColor = Config.ColorEditor;
+            foreach(var item in this.Config.ArchivosRecientes)
+            {
+                recientesToolStripMenuItem.DropDownItems.Add(item);
+            }
+            
+        }
 
         private void abrirArchivoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AbrirArchivo();
+        }
+        public void AbrirArchivo(string filename)
+        {
+            editor.Text = System.IO.File.ReadAllText(filename);//, this.Config.Encoding);
+            Archivo_Actual = filename;
+            Config.ArchivosRecientes.Add(Archivo_Actual);
+            recientesToolStripMenuItem.DropDownItems.Add(Archivo_Actual);
+        }
+        public void AbrirArchivo()
+        {
             OpenFileDialog Open = new OpenFileDialog();
-            
+
             //se especifica que tipos de archivos se podran abrir y se verifica si existe
             //Open.Filter = "Text [*.txt*]|*.txt|All Files [*,*]|*,*";           Open.CheckFileExists = true;
             Open.Title = "Abrir Archivo";
@@ -79,14 +113,19 @@ namespace Notepad_
                 //este codigo se utiliza para que se pueda pueda mostrar la informacion del archivo que queremos abrir en el rich textbox
                 //Open.OpenFile();
                 //myStreamReader = System.IO.File.OpenText(Open.FileName);
-                editor.Text = System.IO.File.ReadAllText(Open.FileName, this.Config.Encoding);
+                editor.Text = System.IO.File.ReadAllText(Open.FileName);//, this.Config.Encoding);
+
+//                string repetido = (from x in Config.ArchivosRecientes where x == Open.FileName select x).ToArray()[0];
+                
 
                 Archivo_Actual = Open.FileName;
             }
             catch (Exception) { }
             //finally { myStreamReader.Close(); }
+            
+            Config.ArchivosRecientes.Add(Archivo_Actual);
+            recientesToolStripMenuItem.DropDownItems.Add(Archivo_Actual);
         }
-
 
 
         private void guardarComoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -105,11 +144,12 @@ namespace Notepad_
                 //myStreamWriter = System.IO.File.AppendText(Save.FileName);
                 //myStreamWriter.Write(editor.Text);
                 //myStreamWriter.Flush();
-                System.IO.File.WriteAllText(Save.FileName,editor.Text, this.Config.Encoding);
+                System.IO.File.WriteAllText(Save.FileName, editor.Text);//, this.Config.Encoding);
 
             }
             catch (Exception) { }
             //finally { myStreamWriter.Close(); }
+
 
         }
 
@@ -203,6 +243,7 @@ namespace Notepad_
             font.ShowDialog();
             this.Config.ActualFont = font.Font;
             editor.Font = font.Font;
+            
         }
 
         private void Notepad_form_FormClosed(object sender, FormClosedEventArgs e)
@@ -211,6 +252,25 @@ namespace Notepad_
             this.Config.ActualFont = this.editor.Font;
             this.Config.GuardadoAutomaticoStatus = guardadoAutomaticoToolStripMenuItem.Checked;
             this.Config.Save();
+        }
+
+        private void colorDeFondoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var colorDialog = new ColorDialog();
+            colorDialog.ShowDialog();
+            this.editor.BackColor = colorDialog.Color;
+            this.Config.ColorEditor = colorDialog.Color;
+        }
+
+        private void recientesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //
+           
+        }
+
+        private void recientesToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            AbrirArchivo(e.ClickedItem.Text);
         }
     }
 }
