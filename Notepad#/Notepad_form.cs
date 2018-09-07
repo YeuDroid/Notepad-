@@ -176,7 +176,7 @@ namespace Notepad_
             {
                 if(!(String.IsNullOrEmpty(Archivo_Actual)))
                 {
-                    System.IO.File.WriteAllText(Archivo_Actual, editor.Text);
+                    System.IO.File.WriteAllLines(Archivo_Actual, editor.Lines);
                 }
             }
         }
