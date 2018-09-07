@@ -1,4 +1,6 @@
-﻿namespace Notepad_
+﻿using System;
+
+namespace Notepad_
 {
     partial class Licencia
     {
@@ -28,7 +30,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Licencia));
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
@@ -40,19 +41,33 @@
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(800, 450);
             this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
+            var txt = GetLicencia();
+            this.richTextBox1.Text = txt;
             // 
-            // Licence
+            // Licencia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.richTextBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "Licence";
-            this.Text = "Licence";
+            this.Name = "Licencia";
+            this.Text = "Licencia";
             this.ResumeLayout(false);
 
+        }
+
+        private string GetLicencia()
+        {
+            try
+            {
+              return  System.IO.File.ReadAllText("licencia.txt");
+            }
+            catch(System.IO.IOException)
+            {
+                string url = @"http://www.gnu.org/licenses/gpl.html";
+                return "ERROR AL OBTENER LA LICENCIA DESDE ARCHIVO LOCAL, EN " + url;
+            }
         }
 
         #endregion

@@ -1,0 +1,15 @@
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\bin\Release\Notepad#.exe.config
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\bin\Release\Notepad#.exe
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\bin\Release\LiteDB.dll
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\bin\Release\Newtonsoft.Json.dll
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\bin\Release\LiteDB.xml
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\bin\Release\Newtonsoft.Json.xml
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\obj\Release\Notepad#.csprojAssemblyReference.cache
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\obj\Release\Notepad_.Licencia.resources
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\obj\Release\Notepad_.Notepad_form.resources
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\obj\Release\Notepad_.Properties.Resources.resources
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\obj\Release\Notepad_.SecretPortal.resources
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\obj\Release\Notepad#.csproj.GenerateResource.cache
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\obj\Release\Notepad#.csproj.CoreCompileInputs.cache
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\obj\Release\Notepad#.csproj.CopyComplete
+C:\Users\Yeu\Documents\SharpDevelop Projects\Notepad#\Notepad#\obj\Release\Notepad#.exe
